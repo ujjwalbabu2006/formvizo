@@ -1,5 +1,5 @@
 // ========================================
-// FORMREADY - MAIN JAVASCRIPT
+// FORMVIZO - MAIN JAVASCRIPT
 // ========================================
 
 
@@ -194,6 +194,6 @@ viewLinks.forEach(link => {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    console.log("FormReady website loaded successfully.");
+    console.log("FORMVIZO website loaded successfully.");
 
 });
