@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FormReady – Prepare Documents for Online Forms</title>
+
+    <meta name="description"
+          content="Resize, compress and convert photos, signatures and PDFs for online applications.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container navbar">
+
+            <a href="#" class="logo">
+                <div class="logo-icon">✓</div>
+
+                <div>
+                    FormReady
+                    <small>Prepare. Resize. Upload.</small>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#tools">Tools</a>
+                <a href="#exams">Exam Sizes</a>
+                <a href="#how">How It Works</a>
+                <a href="#faq">FAQ</a>
+                <a href="#">हिंदी</a>
+                <a href="#tools" class="nav-button">▦ All Tools</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="container hero-grid">
+
+            <div class="hero-content">
+
+                <h1>
+                    Get Your Documents Ready
+                    for Online Forms
+                </h1>
+
+                <p>
+                    Resize, compress and convert photos, signatures and PDFs
+                    for government exams, jobs, admissions and online applications.
+                </p>
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="What do you need to prepare? (e.g. Photo 50 KB)"
+                    >
+
+                    <button onclick="searchTools()">
+                        🔍
+                    </button>
+
+                </div>
+
+                <div class="quick-tools">
+
+                    <a href="#tools">🖼️ Photo</a>
+                    <a href="#tools">✍️ Signature</a>
+                    <a href="#tools">📄 PDF</a>
+
+                </div>
+
+                <div class="trust">
+
+                    <span>✓ Free to use</span>
+                    <span>✓ No registration</span>
+                    <span>✓ Fast & easy</span>
+                    <span>✓ Privacy friendly</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+                <div class="document photo">
+                    <div class="document-icon">👤</div>
+                    <strong>Photo</strong>
+                </div>
+
+                <div class="document signature">
+                    <div class="document-icon">✍️</div>
+                    <strong>Signature</strong>
+                </div>
+
+                <div class="document pdf">
+                    <div class="document-icon">📄</div>
+                    <strong>PDF</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- POPULAR TOOLS -->
+
+    <section id="tools">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Popular Tools</h2>
+                    <p>Quick and easy tools to prepare your files.</p>
+                </div>
+
+                <a href="#" class="view-link">
+                    View All Tools →
+                </a>
+
+            </div>
+
+
+            <div class="tools-grid">
+
+                <a href="photo-resizer.html" class="tool-card">
+                    <div class="tool-icon">🖼️</div>
+
+                    <div>
+                        <h3>Photo Resizer</h3>
+                        <small>Exact KB & Pixels</small>
+                        <p>
+                            Resize your photo to the required size and format.
+                        </p>
+                    </div>
+                </a>
+
+
+                <a href="signature-resizer.html" class="tool-card">
+                    <div class="tool-icon">✍️</div>
+
+                    <div>
+                        <h3>Signature Resizer</h3>
+                        <small>Exact KB & Pixels</small>
+                        <p>
+                            Make your signature ready for form requirements.
+                        </p>
+                    </div>
+                </a>
+
+
+                <div class="tool-card">
+                    <div class="tool-icon">📕</div>
+
+                    <div>
+                        <h3>PDF Compressor</h3>
+                        <small>Reduce PDF Size</small>
+                        <p>
+                            Compress your PDF to the required size.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="tool-card">
+                    <div class="tool-icon">📑</div>
+
+                    <div>
+                        <h3>JPG → PDF</h3>
+                        <small>Convert Image to PDF</small>
+                        <p>
+                            Convert images to PDF in seconds.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="tool-card">
+                    <div class="tool-icon">🗂️</div>
+
+                    <div>
+                        <h3>PDF Merge</h3>
+                        <small>Combine PDFs</small>
+                        <p>
+                            Merge multiple PDF files into one document.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="tool-card">
+                    <div class="tool-icon">📐</div>
+
+                    <div>
+                        <h3>Image Resize</h3>
+                        <small>Custom Dimensions</small>
+                        <p>
+                            Resize your image to exact pixels.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EXAMS -->
+
+    <section class="exam-section" id="exams">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Filling an Online Form?</h2>
+
+                    <p>
+                        Select your exam or application and prepare
+                        the required files.
+                    </p>
+                </div>
+
+                <a href="#" class="view-link">
+                    View All Exam Requirements →
+                </a>
+
+            </div>
+
+
+            <div class="exam-grid">
+
+                <div class="exam-card">
+                    <div class="exam-logo">SSC</div>
+                    <h3>SSC</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+                <div class="exam-card">
+                    <div class="exam-logo">UPSC</div>
+                    <h3>UPSC</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+                <div class="exam-card">
+                    <div class="exam-logo">RRB</div>
+                    <h3>RRB</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+                <div class="exam-card">
+                    <div class="exam-logo">IBPS</div>
+                    <h3>IBPS</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+                <div class="exam-card">
+                    <div class="exam-logo">SBI</div>
+                    <h3>SBI</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+                <div class="exam-card">
+                    <div class="exam-logo">RPSC</div>
+                    <h3>RPSC</h3>
+                    <p>Photo • Signature</p>
+                    <a href="#">View Sizes →</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FILE SIZE -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="size-box">
+
+                <div>
+                    <h3>Need a Specific File Size?</h3>
+
+                    <p>
+                        Quickly compress your image or PDF to the exact size.
+                    </p>
+                </div>
+
+
+                <div class="sizes">
+
+                    <button class="size-btn">20 KB</button>
+                    <button class="size-btn active">50 KB</button>
+                    <button class="size-btn">100 KB</button>
+                    <button class="size-btn">200 KB</button>
+                    <button class="size-btn">1 MB</button>
+
+                </div>
+
+
+                <button class="main-button">
+                    Compress Image →
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+
+    <section id="how">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>How It Works</h2>
+                    <p>Get your documents ready in 4 simple steps.</p>
+                </div>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose a Tool</h3>
+                    <p>Select Photo, Signature or PDF tool.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Upload Your File</h3>
+                    <p>Select your file from your device.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Set Requirements</h3>
+                    <p>Enter required KB, pixels or format.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Download</h3>
+                    <p>Get your ready-to-upload file.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRIVACY -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="privacy">
+
+                <div>
+                    <h3>🛡️ Your Documents Stay Private</h3>
+
+                    <p>
+                        Wherever possible, files are processed directly
+                        in your browser instead of being uploaded.
+                    </p>
+                </div>
+
+                <div>
+                    ✓ No account required<br>
+                    ✓ No unnecessary uploads<br>
+                    ✓ Simple & fast
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ALL TOOLS -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>All Tools</h2>
+                    <p>Explore our complete collection of tools.</p>
+                </div>
+
+            </div>
+
+
+            <div class="category-grid">
+
+                <div class="category">
+
+                    <h3>🖼️ Image Tools</h3>
+
+                    <ul>
+                        <li>Photo Resizer</li>
+                        <li>Photo Compressor</li>
+                        <li>Signature Resizer</li>
+                        <li>Image Converter</li>
+                        <li>Image Cropper</li>
+                        <li>Image to PDF</li>
+                    </ul>
+
+                    <a href="#">View All Image Tools →</a>
+
+                </div>
+
+
+                <div class="category">
+
+                    <h3>📕 PDF Tools</h3>
+
+                    <ul>
+                        <li>Compress PDF</li>
+                        <li>Merge PDF</li>
+                        <li>Split PDF</li>
+                        <li>JPG to PDF</li>
+                        <li>PDF to JPG</li>
+                    </ul>
+
+                    <a href="#">View All PDF Tools →</a>
+
+                </div>
+
+
+                <div class="category">
+
+                    <h3>🧮 Application Tools</h3>
+
+                    <ul>
+                        <li>Age Calculator</li>
+                        <li>Date Calculator</li>
+                        <li>Percentage Calculator</li>
+                        <li>CGPA Calculator</li>
+                    </ul>
+
+                    <a href="#">View All Application Tools →</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FAQ -->
+
+    <section id="faq">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Find answers to common questions.</p>
+                </div>
+
+            </div>
+
+
+            <div class="faq-grid">
+
+                <div class="faq">
+                    <span>Is FormReady free?</span>
+                    <span>⌄</span>
+                </div>
+
+                <div class="faq">
+                    <span>Can I use it on mobile?</span>
+                    <span>⌄</span>
+                </div>
+
+                <div class="faq">
+                    <span>Do I need to create an account?</span>
+                    <span>⌄</span>
+                </div>
+
+                <div class="faq">
+                    <span>Are my documents safe?</span>
+                    <span>⌄</span>
+                </div>
+
+                <div class="faq">
+                    <span>Can I resize a photo to exactly 50 KB?</span>
+                    <span>⌄</span>
+                </div>
+
+                <div class="faq">
+                    <span>Does FormReady provide official exam information?</span>
+                    <span>⌄</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section>
+
+        <div class="container">
+
+            <div class="cta">
+
+                <div>
+                    <h2>Ready to Prepare Your Documents?</h2>
+                    <p>Resize. Compress. Convert. Download.</p>
+                </div>
+
+                <button onclick="document.getElementById('tools').scrollIntoView()">
+                    Explore All Tools →
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div>
+                    <div class="logo">
+                        <div class="logo-icon">✓</div>
+                        FormReady
+                    </div>
+
+                    <p>
+                        Simple tools for preparing documents
+                        for online applications.
+                    </p>
+                </div>
+
+
+                <div>
+                    <h3>Tools</h3>
+
+                    <ul>
+                        <li>Photo Resizer</li>
+                        <li>Signature Resizer</li>
+                        <li>PDF Compressor</li>
+                        <li>JPG to PDF</li>
+                        <li>PDF Merge</li>
+                    </ul>
+                </div>
+
+
+                <div>
+                    <h3>Exam Requirements</h3>
+
+                    <ul>
+                        <li>SSC</li>
+                        <li>UPSC</li>
+                        <li>RRB</li>
+                        <li>IBPS</li>
+                        <li>RPSC</li>
+                    </ul>
+                </div>
+
+
+                <div>
+                    <h3>Company</h3>
+
+                    <ul>
+                        <li>About Us</li>
+                        <li>Contact</li>
+                        <li>Privacy Policy</li>
+                        <li>Terms of Service</li>
+                        <li>Disclaimer</li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <div class="copyright">
+                © 2026 FormReady. All rights reserved.
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
