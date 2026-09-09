@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Signature Resizer - FormReady</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #0f172a;
+        }
+
+        .signature-page {
+            min-height: 100vh;
+            background: #f5f9ff;
+            padding: 45px 20px 70px;
+        }
+
+        .signature-container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #1769ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .signature-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signature-header h1 {
+            font-size: 42px;
+            margin: 0 0 12px;
+        }
+
+        .signature-header p {
+            color: #64748b;
+            font-size: 17px;
+            margin: 0;
+        }
+
+        .signature-box {
+            background: #ffffff;
+            border: 1px solid #dbe7f5;
+            border-radius: 22px;
+            padding: 32px;
+            box-shadow: 0 15px 40px rgba(23, 105, 255, 0.08);
+        }
+
+        .upload-area {
+            display: block;
+            border: 2px dashed #b8cff5;
+            border-radius: 18px;
+            padding: 45px 20px;
+            text-align: center;
+            background: #f8fbff;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .upload-area:hover {
+            border-color: #1769ff;
+            background: #f2f7ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-area h3 {
+            margin: 0 0 8px;
+        }
+
+        .upload-area p {
+            color: #64748b;
+            margin: 0 0 20px;
+        }
+
+        .upload-button {
+            display: inline-block;
+            background: #1769ff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        #signatureInput {
+            display: none;
+        }
+
+        .workspace {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .panel {
+            background: #f8fbff;
+            border: 1px solid #dbe7f5;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .panel h3 {
+            margin: 0 0 15px;
+        }
+
+        .preview-box {
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .preview-box img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .image-details {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .setting-group {
+            margin-bottom: 18px;
+        }
+
+        .setting-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .setting-group input,
+        .setting-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe7f5;
+            border-radius: 10px;
+            background: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .setting-group input:focus,
+        .setting-group select:focus {
+            border-color: #1769ff;
+        }
+
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .size-title {
+            font-weight: 700;
+            margin: 20px 0 10px;
+        }
+
+        .size-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .target-size {
+            border: 1px solid #c9d9ee;
+            background: white;
+            padding: 9px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .target-size:hover,
+        .target-size.active {
+            background: #1769ff;
+            color: white;
+            border-color: #1769ff;
+        }
+
+        .option-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .option-button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #c9d9ee;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .option-button.active {
+            background: #eaf2ff;
+            border-color: #1769ff;
+            color: #1769ff;
+        }
+
+        .custom-note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .resize-button {
+            width: 100%;
+            border: none;
+            background: #1769ff;
+            color: white;
+            padding: 15px;
+            border-radius: 11px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 22px;
+        }
+
+        .resize-button:hover {
+            background: #0f5ce0;
+        }
+
+        .resize-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        .reset-button {
+            width: 100%;
+            border: 1px solid #cbd8e8;
+            background: white;
+            color: #334155;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0fff8;
+            border: 1px solid #bcebd7;
+            border-radius: 16px;
+        }
+
+        .result-section h3 {
+            color: #087a51;
+            margin: 0 0 15px;
+        }
+
+        .result-preview {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .result-preview img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 6px;
+        }
+
+        .result-stats {
+            margin-top: 15px;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .download-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 13px 25px;
+            background: #0c9f68;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .warning {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #fff7ed;
+            color: #9a3412;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 750px) {
+
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .signature-box {
+                padding: 20px;
+            }
+
+            .signature-header h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .dimension-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .size-buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .option-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="signature-page">
+
+    <div class="signature-container">
+
+        <a href="index.html" class="back-home">
+            ← Back to FormReady
+        </a>
+
+        <div class="signature-header">
+
+            <h1>Signature Resizer</h1>
+
+            <p>
+                Resize and compress your signature for online forms.
+            </p>
+
+        </div>
+
+        <div class="signature-box">
+
+            <label for="signatureInput" class="upload-area">
+
+                <div class="upload-icon">✍️</div>
+
+                <h3>Upload Your Signature</h3>
+
+                <p>
+                    JPG, JPEG or PNG • Maximum 10 MB
+                </p>
+
+                <span class="upload-button">
+                    Choose Signature
+                </span>
+
+            </label>
+
+            <input
+                type="file"
+                id="signatureInput"
+                accept="image/jpeg,image/png,image/jpg"
+            >
+
+            <div class="workspace" id="workspace">
+
+                <div class="workspace-grid">
+
+                    <div class="panel">
+
+                        <h3>Original Signature</h3>
+
+                        <div class="preview-box">
+
+                            <img
+                                id="originalPreview"
+                                src=""
+                                alt="Original Signature"
+                            >
+
+                        </div>
+
+                        <div
+                            class="image-details"
+                            id="originalDetails"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h3>Signature Settings</h3>
+
+                        <div class="setting-group">
+
+                            <label>
+                                Dimensions
+                            </label>
+
+                            <div class="dimension-grid">
+
+                                <input
+                                    type="number"
+                                    id="widthInput"
+                                    placeholder="Width px"
+                                    min="10"
+                                >
+
+                                <input
+                                    type="number"
+                                    id="heightInput"
+                                    placeholder="Height px"
+                                    min="10"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="size-title">
+                            Target File Size
+                        </div>
+
+                        <div class="size-buttons">
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="10"
+                            >
+                                10 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size active"
+                                data-size="20"
+                            >
+                                20 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="30"
+                            >
+                                30 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="50"
+                            >
+                                50 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="100"
+                            >
+                                100 KB
+                            </button>
+
+                        </div>
+
+                        <div class="custom-note">
+                            The tool will try to keep the output at or below
+                            the selected target size.
+                        </div>
+
+
+                        <div class="size-title">
+                            Keep Proportions
+                        </div>
+
+                        <div class="option-buttons">
+
+                            <button
+                                type="button"
+                                class="option-button active"
+                                id="ratioYes"
+                            >
+                                Keep Ratio
+                            </button>
+
+                            <button
+                                type="button"
+                                class="option-button"
+                                id="ratioNo"
+                            >
+                                Exact Size
+                            </button>
+
+                        </div>
+
+
+                        <div class="size-title">
+                            Background
+                        </div>
+
+                        <div class="option-buttons">
+
+                            <button
+                                type="button"
+                                class="option-button active"
+                                id="whiteBg"
+                            >
+                                White
+                            </button>
+
+                            <button
+                                type="button"
+                                class="option-button"
+                                id="originalBg"
+                            >
+                                Original
+                            </button>
+
+                        </div>
+
+
+                        <div class="setting-group" style="margin-top:20px;">
+
+                            <label for="formatInput">
+                                Output Format
+                            </label>
+
+                            <select id="formatInput">
+
+                                <option value="image/jpeg">
+                                    JPG
+                                </option>
+
+                                <option value="image/png">
+                                    PNG
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="resize-button"
+                            id="resizeButton"
+                        >
+                            Resize & Compress Signature
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="reset-button"
+                            id="resetButton"
+                        >
+                            Reset
+                        </button>
+
+
+                        <div
+                            class="warning"
+                            id="warningBox"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="result-section"
+                id="resultSection"
+            >
+
+                <h3>✓ Your Signature Is Ready</h3>
+
+                <div class="result-preview">
+
+                    <img
+                        id="resultPreview"
+                        src=""
+                        alt="Resized Signature"
+                    >
+
+                </div>
+
+                <div
+                    class="result-stats"
+                    id="resultStats"
+                ></div>
+
+                <a
+                    id="downloadButton"
+                    class="download-button"
+                    href="#"
+                    download="formready-signature.jpg"
+                >
+                    ⬇ Download Signature
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const signatureInput =
+        document.getElementById("signatureInput");
+
+    const workspace =
+        document.getElementById("workspace");
+
+    const originalPreview =
+        document.getElementById("originalPreview");
+
+    const originalDetails =
+        document.getElementById("originalDetails");
+
+    const widthInput =
+        document.getElementById("widthInput");
+
+    const heightInput =
+        document.getElementById("heightInput");
+
+    const resizeButton =
+        document.getElementById("resizeButton");
+
+    const resetButton =
+        document.getElementById("resetButton");
+
+    const resultSection =
+        document.getElementById("resultSection");
+
+    const resultPreview =
+        document.getElementById("resultPreview");
+
+    const resultStats =
+        document.getElementById("resultStats");
+
+    const downloadButton =
+        document.getElementById("downloadButton");
+
+    const formatInput =
+        document.getElementById("formatInput");
+
+    const warningBox =
+        document.getElementById("warningBox");
+
+    const ratioYes =
+        document.getElementById("ratioYes");
+
+    const ratioNo =
+        document.getElementById("ratioNo");
+
+    const whiteBg =
+        document.getElementById("whiteBg");
+
+    const originalBg =
+        document.getElementById("originalBg");
+
+
+    let selectedImage = null;
+    let selectedFile = null;
+
+    let targetKB = 20;
+
+    let keepRatio = true;
+
+    let useWhiteBackground = true;
+
+    let previousDownloadURL = null;
+
+
+    function formatBytes(bytes) {
+
+        if (bytes < 1024) {
+            return bytes + " B";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return (bytes / 1024).toFixed(1) + " KB";
+        }
+
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+
+    signatureInput.addEventListener(
+        "change",
+        function() {
+
+            const file = this.files[0];
+
+            if (!file) return;
+
+
+            if (file.size > 10 * 1024 * 1024) {
+
+                alert(
+                    "Please choose a signature image smaller than 10 MB."
+                );
+
+                signatureInput.value = "";
+
+                return;
+            }
+
+
+            selectedFile = file;
+
+
+            const reader = new FileReader();
+
+
+            reader.onload = function(event) {
+
+                selectedImage = new Image();
+
+
+                selectedImage.onload = function() {
+
+                    originalPreview.src =
+                        event.target.result;
+
+
+                    widthInput.value =
+                        selectedImage.width;
+
+
+                    heightInput.value =
+                        selectedImage.height;
+
+
+                    originalDetails.innerHTML =
+
+                        "<strong>Dimensions:</strong> " +
+                        selectedImage.width +
+                        " × " +
+                        selectedImage.height +
+                        " px<br>" +
+
+                        "<strong>File size:</strong> " +
+                        formatBytes(file.size) +
+                        "<br>" +
+
+                        "<strong>Format:</strong> " +
+                        file.type;
+
+
+                    workspace.style.display =
+                        "block";
+
+
+                    resultSection.style.display =
+                        "none";
+
+
+                    warningBox.style.display =
+                        "none";
+
+
+                    workspace.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                };
+
+
+                selectedImage.src =
+                    event.target.result;
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(".target-size")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(".target-size")
+                        .forEach(btn =>
+                            btn.classList.remove("active")
+                        );
+
+                    this.classList.add("active");
+
+                    targetKB =
+                        parseInt(this.dataset.size);
+
+                }
+            );
+
+        });
+
+
+    ratioYes.addEventListener(
+        "click",
+        function() {
+
+            keepRatio = true;
+
+            ratioYes.classList.add("active");
+            ratioNo.classList.remove("active");
+
+        }
+    );
+
+
+    ratioNo.addEventListener(
+        "click",
+        function() {
+
+            keepRatio = false;
+
+            ratioNo.classList.add("active");
+            ratioYes.classList.remove("active");
+
+        }
+    );
+
+
+    whiteBg.addEventListener(
+        "click",
+        function() {
+
+            useWhiteBackground = true;
+
+            whiteBg.classList.add("active");
+            originalBg.classList.remove("active");
+
+        }
+    );
+
+
+    originalBg.addEventListener(
+        "click",
+        function() {
+
+            useWhiteBackground = false;
+
+            originalBg.classList.add("active");
+            whiteBg.classList.remove("active");
+
+        }
+    );
+
+
+    function createCanvas(
+        width,
+        height
+    ) {
+
+        const canvas =
+            document.createElement("canvas");
+
+        canvas.width = width;
+        canvas.height = height;
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        ctx.imageSmoothingEnabled = true;
+
+        ctx.imageSmoothingQuality = "high";
+
+
+        if (useWhiteBackground) {
+
+            ctx.fillStyle = "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+        }
+
+
+        let drawWidth =
+            width;
+
+        let drawHeight =
+            height;
+
+        let offsetX = 0;
+
+        let offsetY = 0;
+
+
+        if (keepRatio) {
+
+            const imageRatio =
+                selectedImage.width /
+                selectedImage.height;
+
+
+            const canvasRatio =
+                width /
+                height;
+
+
+            if (imageRatio > canvasRatio) {
+
+                drawWidth =
+                    width;
+
+                drawHeight =
+                    width / imageRatio;
+
+                offsetY =
+                    (height - drawHeight) / 2;
+
+            } else {
+
+                drawHeight =
+                    height;
+
+                drawWidth =
+                    height * imageRatio;
+
+                offsetX =
+                    (width - drawWidth) / 2;
+
+            }
+
+        }
+
+
+        ctx.drawImage(
+            selectedImage,
+            offsetX,
+            offsetY,
+            drawWidth,
+            drawHeight
+        );
+
+
+        return canvas;
+    }
+
+
+    function canvasToBlob(
+        canvas,
+        quality,
+        format
+    ) {
+
+        return new Promise(resolve => {
+
+            canvas.toBlob(
+                resolve,
+                format,
+                quality
+            );
+
+        });
+
+    }
+
+
+    async function compressToTarget(
+        canvas,
+        format,
+        targetBytes
+    ) {
+
+        if (format === "image/png") {
+
+            return await canvasToBlob(
+                canvas,
+                1,
+                format
+            );
+
+        }
+
+
+        let low = 0.05;
+
+        let high = 0.98;
+
+        let bestBlob = null;
+
+
+        for (
+            let i = 0;
+            i < 10;
+            i++
+        ) {
+
+            const quality =
+                (low + high) / 2;
+
+
+            const blob =
+                await canvasToBlob(
+                    canvas,
+                    quality,
+                    format
+                );
+
+
+            if (!blob) {
+                break;
+            }
+
+
+            if (
+                blob.size <= targetBytes
+            ) {
+
+                bestBlob = blob;
+
+                low = quality;
+
+            } else {
+
+                high = quality;
+
+            }
+
+        }
+
+
+        if (bestBlob) {
+            return bestBlob;
+        }
+
+
+        return await canvasToBlob(
+            canvas,
+            0.05,
+            format
+        );
+
+    }
+
+
+    resizeButton.addEventListener(
+        "click",
+        async function() {
+
+            if (!selectedImage) {
+
+                alert(
+                    "Please upload a signature first."
+                );
+
+                return;
+            }
+
+
+            const width =
+                parseInt(widthInput.value);
+
+
+            const height =
+                parseInt(heightInput.value);
+
+
+            if (
+                !width ||
+                !height ||
+                width < 10 ||
+                height < 10
+            ) {
+
+                alert(
+                    "Please enter valid width and height."
+                );
+
+                return;
+            }
+
+
+            const format =
+                formatInput.value;
+
+
+            const targetBytes =
+                targetKB * 1024;
+
+
+            resizeButton.disabled = true;
+
+            resizeButton.innerText =
+                "Processing...";
+
+
+            warningBox.style.display =
+                "none";
+
+
+            try {
+
+                const canvas =
+                    createCanvas(
+                        width,
+                        height
+                    );
+
+
+                const blob =
+                    await compressToTarget(
+                        canvas,
+                        format,
+                        targetBytes
+                    );
+
+
+                if (!blob) {
+
+                    throw new Error(
+                        "Could not create signature."
+                    );
+
+                }
+
+
+                if (previousDownloadURL) {
+
+                    URL.revokeObjectURL(
+                        previousDownloadURL
+                    );
+
+                }
+
+
+                previousDownloadURL =
+                    URL.createObjectURL(blob);
+
+
+                resultPreview.src =
+                    previousDownloadURL;
+
+
+                const extension =
+                    format === "image/png"
+                        ? "png"
+                        : "jpg";
+
+
+                downloadButton.href =
+                    previousDownloadURL;
+
+
+                downloadButton.download =
+                    "formready-signature." +
+                    extension;
+
+
+                resultStats.innerHTML =
+
+                    "<strong>Dimensions:</strong> " +
+                    width +
+                    " × " +
+                    height +
+                    " px<br>" +
+
+                    "<strong>Original size:</strong> " +
+                    formatBytes(selectedFile.size) +
+                    "<br>" +
+
+                    "<strong>New size:</strong> " +
+                    formatBytes(blob.size) +
+                    "<br>" +
+
+                    "<strong>Target:</strong> " +
+                    targetKB +
+                    " KB";
+
+
+                if (
+                    blob.size / 1024 > targetKB
+                ) {
+
+                    warningBox.innerHTML =
+
+                        "The signature could not be reduced below " +
+                        targetKB +
+                        " KB at these dimensions. " +
+                        "Try smaller dimensions or use JPG format.";
+
+                    warningBox.style.display =
+                        "block";
+
+                } else {
+
+                    warningBox.style.display =
+                        "none";
+
+                }
+
+
+                resultSection.style.display =
+                    "block";
+
+
+                resultSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Something went wrong while processing the signature."
+                );
+
+            }
+
+
+            resizeButton.disabled = false;
+
+            resizeButton.innerText =
+                "Resize & Compress Signature";
+
+        }
+    );
+
+
+    resetButton.addEventListener(
+        "click",
+        function() {
+
+            signatureInput.value = "";
+
+            selectedImage = null;
+
+            selectedFile = null;
+
+
+            workspace.style.display =
+                "none";
+
+
+            resultSection.style.display =
+                "none";
+
+
+            warningBox.style.display =
+                "none";
+
+
+            if (previousDownloadURL) {
+
+                URL.revokeObjectURL(
+                    previousDownloadURL
+                );
+
+                previousDownloadURL = null;
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

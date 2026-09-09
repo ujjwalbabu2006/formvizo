@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Photo Resizer - FormReady</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #0f172a;
+        }
+
+        .resizer-page {
+            min-height: 100vh;
+            background: #f5f9ff;
+            padding: 45px 20px 70px;
+        }
+
+        .resizer-container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #1769ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .resizer-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .resizer-header h1 {
+            font-size: 42px;
+            margin: 0 0 12px;
+        }
+
+        .resizer-header p {
+            color: #64748b;
+            font-size: 17px;
+            margin: 0;
+        }
+
+        .resizer-box {
+            background: #fff;
+            border: 1px solid #dbe7f5;
+            border-radius: 22px;
+            padding: 32px;
+            box-shadow: 0 15px 40px rgba(23, 105, 255, 0.08);
+        }
+
+        /* Upload */
+
+        .upload-area {
+            display: block;
+            border: 2px dashed #b8cff5;
+            border-radius: 18px;
+            padding: 45px 20px;
+            text-align: center;
+            background: #f8fbff;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .upload-area:hover {
+            border-color: #1769ff;
+            background: #f2f7ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-area h3 {
+            margin: 0 0 8px;
+        }
+
+        .upload-area p {
+            color: #64748b;
+            margin: 0 0 20px;
+        }
+
+        .upload-button {
+            display: inline-block;
+            background: #1769ff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        /* Main workspace */
+
+        .workspace {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .panel {
+            background: #f8fbff;
+            border: 1px solid #dbe7f5;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .panel h3 {
+            margin: 0 0 15px;
+        }
+
+        .preview-box {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .preview-box img {
+            max-width: 100%;
+            max-height: 330px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .image-details {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* Settings */
+
+        .setting-group {
+            margin-bottom: 18px;
+        }
+
+        .setting-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .setting-group input,
+        .setting-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe7f5;
+            border-radius: 10px;
+            background: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .setting-group input:focus,
+        .setting-group select:focus {
+            border-color: #1769ff;
+        }
+
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Target size */
+
+        .size-title {
+            font-weight: 700;
+            margin: 20px 0 10px;
+        }
+
+        .size-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .target-size {
+            border: 1px solid #c9d9ee;
+            background: white;
+            padding: 9px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .target-size:hover,
+        .target-size.active {
+            background: #1769ff;
+            color: white;
+            border-color: #1769ff;
+        }
+
+        .custom-size-note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        /* Crop mode */
+
+        .crop-options {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .crop-option {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #c9d9ee;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .crop-option.active {
+            background: #eaf2ff;
+            border-color: #1769ff;
+            color: #1769ff;
+        }
+
+        /* Button */
+
+        .resize-button {
+            width: 100%;
+            border: none;
+            background: #1769ff;
+            color: white;
+            padding: 15px;
+            border-radius: 11px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 22px;
+        }
+
+        .resize-button:hover {
+            background: #0f5ce0;
+        }
+
+        .reset-button {
+            width: 100%;
+            border: 1px solid #cbd8e8;
+            background: white;
+            color: #334155;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Result */
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0fff8;
+            border: 1px solid #bcebd7;
+            border-radius: 16px;
+        }
+
+        .result-section h3 {
+            color: #087a51;
+            margin: 0 0 15px;
+        }
+
+        .result-preview {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .result-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+        }
+
+        .result-stats {
+            margin-top: 15px;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .download-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 13px 25px;
+            background: #0c9f68;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .warning {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #fff7ed;
+            color: #9a3412;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 750px) {
+
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resizer-box {
+                padding: 20px;
+            }
+
+            .resizer-header h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .dimension-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .size-buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .crop-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="resizer-page">
+
+    <div class="resizer-container">
+
+        <a href="index.html" class="back-home">
+            ← Back to FormReady
+        </a>
+
+        <div class="resizer-header">
+            <h1>Photo Resizer</h1>
+            <p>
+                Resize, crop and compress your photo for online forms.
+            </p>
+        </div>
+
+        <div class="resizer-box">
+
+            <!-- Upload -->
+
+            <label for="photoInput" class="upload-area">
+
+                <div class="upload-icon">📷</div>
+
+                <h3>Upload Your Photo</h3>
+
+                <p>
+                    JPG, JPEG or PNG • Maximum 10 MB
+                </p>
+
+                <span class="upload-button">
+                    Choose Photo
+                </span>
+
+            </label>
+
+            <input
+                type="file"
+                id="photoInput"
+                accept="image/jpeg,image/png,image/jpg"
+            >
+
+
+            <!-- Workspace -->
+
+            <div class="workspace" id="workspace">
+
+                <div class="workspace-grid">
+
+                    <!-- Preview -->
+
+                    <div class="panel">
+
+                        <h3>Original Photo</h3>
+
+                        <div class="preview-box">
+
+                            <img
+                                id="originalPreview"
+                                src=""
+                                alt="Original Photo"
+                            >
+
+                        </div>
+
+                        <div
+                            class="image-details"
+                            id="originalDetails"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- Settings -->
+
+                    <div class="panel">
+
+                        <h3>Resize Settings</h3>
+
+
+                        <!-- Dimensions -->
+
+                        <div class="setting-group">
+
+                            <label>
+                                Dimensions
+                            </label>
+
+                            <div class="dimension-grid">
+
+                                <input
+                                    type="number"
+                                    id="widthInput"
+                                    placeholder="Width px"
+                                    min="10"
+                                >
+
+                                <input
+                                    type="number"
+                                    id="heightInput"
+                                    placeholder="Height px"
+                                    min="10"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Target KB -->
+
+                        <div class="size-title">
+                            Target File Size
+                        </div>
+
+                        <div class="size-buttons">
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="20"
+                            >
+                                20 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="50"
+                            >
+                                50 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size active"
+                                data-size="100"
+                            >
+                                100 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="200"
+                            >
+                                200 KB
+                            </button>
+
+                            <button
+                                type="button"
+                                class="target-size"
+                                data-size="1024"
+                            >
+                                1 MB
+                            </button>
+
+                        </div>
+
+                        <div class="custom-size-note">
+                            Target size is approximate. Actual file size
+                            depends on image content and dimensions.
+                        </div>
+
+
+                        <!-- Crop -->
+
+                        <div class="size-title">
+                            Image Fit
+                        </div>
+
+                        <div class="crop-options">
+
+                            <button
+                                type="button"
+                                class="crop-option active"
+                                data-fit="stretch"
+                            >
+                                Fit to Size
+                            </button>
+
+                            <button
+                                type="button"
+                                class="crop-option"
+                                data-fit="contain"
+                            >
+                                Keep Ratio
+                            </button>
+
+                        </div>
+
+
+                        <!-- Format -->
+
+                        <div class="setting-group" style="margin-top:20px;">
+
+                            <label for="formatInput">
+                                Output Format
+                            </label>
+
+                            <select id="formatInput">
+
+                                <option value="image/jpeg">
+                                    JPG
+                                </option>
+
+                                <option value="image/png">
+                                    PNG
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Resize -->
+
+                        <button
+                            type="button"
+                            class="resize-button"
+                            id="resizeButton"
+                        >
+                            Resize & Compress Photo
+                        </button>
+
+                        <button
+                            type="button"
+                            class="reset-button"
+                            id="resetButton"
+                        >
+                            Reset
+                        </button>
+
+                        <div
+                            class="warning"
+                            id="warningBox"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Result -->
+
+            <div
+                class="result-section"
+                id="resultSection"
+            >
+
+                <h3>✓ Your Photo Is Ready</h3>
+
+                <div class="result-preview">
+
+                    <img
+                        id="resultPreview"
+                        src=""
+                        alt="Resized Photo"
+                    >
+
+                </div>
+
+                <div
+                    class="result-stats"
+                    id="resultStats"
+                ></div>
+
+                <a
+                    id="downloadButton"
+                    class="download-button"
+                    href="#"
+                    download="formready-photo.jpg"
+                >
+                    ⬇ Download Photo
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    // ========================================
+    // FORMREADY PHOTO RESIZER 2.0
+    // ========================================
+
+    const photoInput =
+        document.getElementById("photoInput");
+
+    const workspace =
+        document.getElementById("workspace");
+
+    const originalPreview =
+        document.getElementById("originalPreview");
+
+    const originalDetails =
+        document.getElementById("originalDetails");
+
+    const widthInput =
+        document.getElementById("widthInput");
+
+    const heightInput =
+        document.getElementById("heightInput");
+
+    const resizeButton =
+        document.getElementById("resizeButton");
+
+    const resetButton =
+        document.getElementById("resetButton");
+
+    const resultSection =
+        document.getElementById("resultSection");
+
+    const resultPreview =
+        document.getElementById("resultPreview");
+
+    const resultStats =
+        document.getElementById("resultStats");
+
+    const downloadButton =
+        document.getElementById("downloadButton");
+
+    const formatInput =
+        document.getElementById("formatInput");
+
+    const warningBox =
+        document.getElementById("warningBox");
+
+
+    let selectedImage = null;
+
+    let selectedFile = null;
+
+    let targetKB = 100;
+
+    let fitMode = "stretch";
+
+    let previousDownloadURL = null;
+
+
+    // ========================================
+    // FORMAT FILE SIZE
+    // ========================================
+
+    function formatBytes(bytes) {
+
+        if (bytes < 1024) {
+            return bytes + " B";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return (bytes / 1024).toFixed(1) + " KB";
+        }
+
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+
+    // ========================================
+    // UPLOAD
+    // ========================================
+
+    photoInput.addEventListener("change", function() {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+
+        if (file.size > 10 * 1024 * 1024) {
+
+            alert("Please choose a photo smaller than 10 MB.");
+
+            photoInput.value = "";
+
+            return;
+        }
+
+
+        selectedFile = file;
+
+
+        const reader = new FileReader();
+
+
+        reader.onload = function(event) {
+
+            selectedImage = new Image();
+
+
+            selectedImage.onload = function() {
+
+                originalPreview.src =
+                    event.target.result;
+
+
+                widthInput.value =
+                    selectedImage.width;
+
+                heightInput.value =
+                    selectedImage.height;
+
+
+                originalDetails.innerHTML =
+                    "<strong>Dimensions:</strong> " +
+                    selectedImage.width +
+                    " × " +
+                    selectedImage.height +
+                    " px<br>" +
+
+                    "<strong>File size:</strong> " +
+                    formatBytes(file.size) +
+                    "<br>" +
+
+                    "<strong>Format:</strong> " +
+                    file.type;
+
+
+                workspace.style.display =
+                    "block";
+
+
+                resultSection.style.display =
+                    "none";
+
+
+                warningBox.style.display =
+                    "none";
+
+
+                workspace.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            };
+
+
+            selectedImage.src =
+                event.target.result;
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+    });
+
+
+    // ========================================
+    // TARGET SIZE BUTTONS
+    // ========================================
+
+    document.querySelectorAll(".target-size")
+        .forEach(button => {
+
+            button.addEventListener("click", function() {
+
+                document
+                    .querySelectorAll(".target-size")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+
+                this.classList.add("active");
+
+
+                targetKB =
+                    parseInt(this.dataset.size);
+
+            });
+
+        });
+
+
+    // ========================================
+    // FIT MODE
+    // ========================================
+
+    document.querySelectorAll(".crop-option")
+        .forEach(button => {
+
+            button.addEventListener("click", function() {
+
+                document
+                    .querySelectorAll(".crop-option")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+
+                this.classList.add("active");
+
+
+                fitMode =
+                    this.dataset.fit;
+
+            });
+
+        });
+
+
+    // ========================================
+    // CANVAS CREATION
+    // ========================================
+
+    function createCanvas(width, height) {
+
+        const canvas =
+            document.createElement("canvas");
+
+        canvas.width = width;
+
+        canvas.height = height;
+
+        const ctx =
+            canvas.getContext("2d");
+
+        ctx.imageSmoothingEnabled = true;
+
+        ctx.imageSmoothingQuality = "high";
+
+
+        if (fitMode === "stretch") {
+
+            ctx.drawImage(
+                selectedImage,
+                0,
+                0,
+                width,
+                height
+            );
+
+        } else {
+
+            const imageRatio =
+                selectedImage.width /
+                selectedImage.height;
+
+            const canvasRatio =
+                width / height;
+
+
+            let drawWidth;
+
+            let drawHeight;
+
+            let offsetX = 0;
+
+            let offsetY = 0;
+
+
+            if (imageRatio > canvasRatio) {
+
+                drawHeight = height;
+
+                drawWidth =
+                    height * imageRatio;
+
+                offsetX =
+                    (width - drawWidth) / 2;
+
+            } else {
+
+                drawWidth = width;
+
+                drawHeight =
+                    width / imageRatio;
+
+                offsetY =
+                    (height - drawHeight) / 2;
+
+            }
+
+
+            ctx.fillStyle = "#ffffff";
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            ctx.drawImage(
+                selectedImage,
+                offsetX,
+                offsetY,
+                drawWidth,
+                drawHeight
+            );
+
+        }
+
+
+        return canvas;
+    }
+
+
+    // ========================================
+    // CREATE BLOB
+    // ========================================
+
+    function canvasToBlob(canvas, quality, format) {
+
+        return new Promise(resolve => {
+
+            canvas.toBlob(
+                resolve,
+                format,
+                quality
+            );
+
+        });
+
+    }
+
+
+    // ========================================
+    // FIND BEST QUALITY FOR TARGET KB
+    // ========================================
+
+    async function compressToTarget(
+        canvas,
+        format,
+        targetBytes
+    ) {
+
+        let low = 0.05;
+
+        let high = 0.98;
+
+        let bestBlob = null;
+
+
+        // PNG does not respond to JPEG-style
+        // quality compression in the same way.
+
+        if (format === "image/png") {
+
+            return await canvasToBlob(
+                canvas,
+                1,
+                format
+            );
+
+        }
+
+
+        for (let i = 0; i < 9; i++) {
+
+            const quality =
+                (low + high) / 2;
+
+
+            const blob =
+                await canvasToBlob(
+                    canvas,
+                    quality,
+                    format
+                );
+
+
+            if (!blob) break;
+
+
+            if (
+                blob.size <= targetBytes
+            ) {
+
+                bestBlob = blob;
+
+                low = quality;
+
+            } else {
+
+                high = quality;
+
+            }
+
+        }
+
+
+        if (bestBlob) {
+            return bestBlob;
+        }
+
+
+        return await canvasToBlob(
+            canvas,
+            0.05,
+            format
+        );
+
+    }
+
+
+    // ========================================
+    // RESIZE
+    // ========================================
+
+    resizeButton.addEventListener(
+        "click",
+        async function() {
+
+            if (!selectedImage) {
+
+                alert("Please upload a photo first.");
+
+                return;
+            }
+
+
+            const width =
+                parseInt(widthInput.value);
+
+            const height =
+                parseInt(heightInput.value);
+
+
+            if (
+                !width ||
+                !height ||
+                width < 10 ||
+                height < 10
+            ) {
+
+                alert(
+                    "Please enter valid width and height."
+                );
+
+                return;
+            }
+
+
+            const format =
+                formatInput.value;
+
+
+            const targetBytes =
+                targetKB * 1024;
+
+
+            resizeButton.disabled = true;
+
+            resizeButton.innerText =
+                "Processing...";
+
+
+            warningBox.style.display =
+                "none";
+
+
+            try {
+
+                const canvas =
+                    createCanvas(
+                        width,
+                        height
+                    );
+
+
+                const blob =
+                    await compressToTarget(
+                        canvas,
+                        format,
+                        targetBytes
+                    );
+
+
+                if (!blob) {
+
+                    throw new Error(
+                        "Could not create image."
+                    );
+
+                }
+
+
+                // Old URL cleanup
+
+                if (previousDownloadURL) {
+
+                    URL.revokeObjectURL(
+                        previousDownloadURL
+                    );
+
+                }
+
+
+                previousDownloadURL =
+                    URL.createObjectURL(blob);
+
+
+                // Preview
+
+                resultPreview.src =
+                    previousDownloadURL;
+
+
+                // File extension
+
+                const extension =
+                    format === "image/png"
+                        ? "png"
+                        : "jpg";
+
+
+                downloadButton.href =
+                    previousDownloadURL;
+
+
+                downloadButton.download =
+                    "formready-photo." +
+                    extension;
+
+
+                const finalKB =
+                    blob.size / 1024;
+
+
+                const originalKB =
+                    selectedFile.size / 1024;
+
+
+                const difference =
+                    originalKB - finalKB;
+
+
+                resultStats.innerHTML =
+
+                    "<strong>Dimensions:</strong> " +
+                    width +
+                    " × " +
+                    height +
+                    " px<br>" +
+
+                    "<strong>Original size:</strong> " +
+                    formatBytes(selectedFile.size) +
+                    "<br>" +
+
+                    "<strong>New size:</strong> " +
+                    formatBytes(blob.size) +
+                    "<br>" +
+
+                    "<strong>Target:</strong> " +
+                    targetKB +
+                    " KB";
+
+
+                // Target warning
+
+                if (
+                    finalKB > targetKB
+                ) {
+
+                    warningBox.innerHTML =
+                        "The image could not be reduced below " +
+                        targetKB +
+                        " KB at these dimensions. " +
+                        "Try smaller dimensions for a smaller file.";
+
+                    warningBox.style.display =
+                        "block";
+
+                } else {
+
+                    warningBox.style.display =
+                        "none";
+
+                }
+
+
+                resultSection.style.display =
+                    "block";
+
+
+                resultSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Something went wrong while processing the photo."
+                );
+
+            }
+
+
+            resizeButton.disabled = false;
+
+            resizeButton.innerText =
+                "Resize & Compress Photo";
+
+        }
+    );
+
+
+    // ========================================
+    // RESET
+    // ========================================
+
+    resetButton.addEventListener(
+        "click",
+        function() {
+
+            photoInput.value = "";
+
+            selectedImage = null;
+
+            selectedFile = null;
+
+            workspace.style.display =
+                "none";
+
+            resultSection.style.display =
+                "none";
+
+            warningBox.style.display =
+                "none";
+
+
+            if (previousDownloadURL) {
+
+                URL.revokeObjectURL(
+                    previousDownloadURL
+                );
+
+                previousDownloadURL = null;
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
+
